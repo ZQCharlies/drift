@@ -10,8 +10,13 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-#idea file
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 *.iml
 .idea
 mvnw*
 .mvn
+.DS_Store
