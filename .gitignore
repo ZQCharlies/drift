@@ -13,3 +13,4 @@ buildNumber.properties
 #idea file
 *.iml
 .idea
+mvnw*
