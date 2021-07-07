@@ -14,6 +14,7 @@
     <modules>
         <module>experiment</module>
         <module>rabbitmq</module>
+        <module>xxl-job</module>
     </modules>
 
     <properties>
