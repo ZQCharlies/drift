@@ -1,6 +1,9 @@
 package com.example.rabbitmq.producer;
 
 import com.example.rabbitmq.config.DirectMQConfig;
+import com.example.rabbitmq.config.FanoutMQConfig;
+import com.example.rabbitmq.config.TopicMQConfig;
+import com.example.rabbitmq.config.WorkMQConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +36,24 @@ public class Producer {
     }
 
     /**
-     * @description: work queue模型
-     * @Param:
-     * @author: wzq
-     * @date: 2021/7/6 3:59 下午
+     * work queue
+     * @param message
      */
-    @GetMapping("/work/sendMessage")
-    public void sendMessageToWork(String message){
+    @GetMapping(value = "/work/sendMessage")
+    public void  sendMessageToWork(String message){
+        for (int i = 0; i < 8; i++) {
+            String concatMessage = message.concat(String.valueOf(i));
+            log.info("message:{}",concatMessage);
+            rabbitTemplate.convertAndSend(WorkMQConfig.WORK_QUEUE_NAME, concatMessage);
+        }
+    }
+
+    /**
+     * 订阅模型 direct模型 根据路由键转发到指定队列
+     * @param message
+     */
+    @GetMapping("/subscribe/direct/sendMessage")
+    public void sendMessageToDirect(String message){
         for (int i = 0; i < 8; i++) {
             String concatMessage = message.concat(String.valueOf(Math.random()));
             log.info("message:{}",concatMessage);
@@ -47,12 +61,34 @@ public class Producer {
         }
     }
 
-    @GetMapping("/subscribe/sendMessage")
-    public void sendMessageToPublishAndSubscribe(String message){
+    /**
+     * 订阅模型 fanout模型 由交换机转发到多个队列
+     * @param message
+     */
+    @GetMapping("/subscribe/fanout/sendMessage")
+    public void sendMessageByFanout(String message){
         for (int i = 0; i < 8; i++) {
             String concatMessage = message.concat(String.valueOf(Math.random()));
-            log.info("message:{}",concatMessage);
-            rabbitTemplate.convertAndSend(null,concatMessage);
+            rabbitTemplate.convertAndSend(FanoutMQConfig.FANOUT_EXCHANGE,null,concatMessage);
+        }
+    }
+
+
+    /**
+     * 订阅模型 topic模型 根据路由键转发消息到队列，其中一个队列可以绑定多个"通配符"的路由键
+     * @param message
+     */
+    @GetMapping("/subscribe/topic/sendMessage")
+    public void sendMessageByTopic(String message){
+        for (int i = 0; i < 8; i++) {
+            String concatMessage = message.concat(String.valueOf(Math.random()));
+            if (i % 2 == 0){
+                log.info("i:{},key:{},content:{}",i,TopicMQConfig.TOPIC_QUEUE_NAME_TWO,concatMessage);
+                rabbitTemplate.convertAndSend(TopicMQConfig.TOPIC_EXCHANGE_NAME, TopicMQConfig.TOPIC_ROUTING_KEY_ONE,String.valueOf(i));
+            }else {
+                log.info("i:{},key:{},content:{}",i,TopicMQConfig.TOPIC_ROUTING_KEY_TWO,concatMessage);
+                rabbitTemplate.convertAndSend(TopicMQConfig.TOPIC_EXCHANGE_NAME,TopicMQConfig.TOPIC_ROUTING_KEY_TWO,String.valueOf(i));
+            }
         }
     }
 }

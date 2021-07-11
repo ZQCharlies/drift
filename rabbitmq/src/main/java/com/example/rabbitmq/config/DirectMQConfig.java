@@ -16,17 +16,17 @@ import org.springframework.context.annotation.Configuration;
 public class DirectMQConfig {
 
     /**
-     * worK queue name
+     * direct queue name
      */
     public static final String DIRECT_QUEUE_NAME = "direct.queue";
     /**
-     * work exchange
+     * direct exchange
      */
     public static final String DIRECT_EXCHANGE_NAME = "direct.exchange";
     /**
      * routing key
      */
-    public static final String DIRECT_ROUTING_KEY_NAME =    "direct.routing.key";
+    public static final String DIRECT_ROUTING_KEY_NAME = "direct.routing.key";
 
     /**
      * 交换机

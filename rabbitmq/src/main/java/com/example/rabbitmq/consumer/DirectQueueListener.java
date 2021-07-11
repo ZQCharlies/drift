@@ -22,7 +22,7 @@ import java.io.IOException;
  **/
 @Component
 @Slf4j
-public class QueueListener {
+public class DirectQueueListener {
 
     /**
      * 简单队列模型
@@ -41,7 +41,7 @@ public class QueueListener {
     }
 
     /**
-     * 分发队列模型（work queue）
+     * direct 模型
      */
     @RabbitListener(queues = DirectMQConfig.DIRECT_QUEUE_NAME,ackMode = "MANUAL",concurrency = "3")
     public void orkQueueListener(Message message
