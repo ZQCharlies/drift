@@ -21,6 +21,6 @@ public class ActorController {
     //具体使用
     public static void main(String[] args) {
         //创建英雄
-        Actor construct = ActorController.construct(new AngelActorBuilder());
+        ActorController.construct(new AngelActorBuilder());
     }
 }
