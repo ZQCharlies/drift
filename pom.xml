@@ -15,6 +15,7 @@
         <module>experiment</module>
         <module>rabbitmq</module>
         <module>xxl-job</module>
+        <module>SpringSecurity</module>
         <module>redis</module>
     </modules>
 

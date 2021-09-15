@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+#spring security
+spring:
+  security:
+    user:
+      name: user
+      password: 1234
