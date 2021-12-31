@@ -1,4 +1,4 @@
-package com.example.springsecurity.Controller;
+package com.example.springsecurity.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2021/9/15
  **/
 @RestController
-@RequestMapping("/user/api/")
-public class UserController {
+@RequestMapping("/app/api/")
+public class AppController {
 
     @GetMapping("hello")
     public String hello(){
-        return "hello,user";
+        return "hello,app";
     }
-
 }

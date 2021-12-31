@@ -7,3 +7,28 @@ spring:
     user:
       name: user
       password: 1234
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo?serverTimezone=GMT%2B8
+    username: root
+    password: wzq123456
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/*/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/**.xml
+  mapper-locations: classpath*:/com/example/springsecurity/dao/impl/*Mapper.xml
+  typeAliasesPackage: com.example.springsecurity.model
+  global-config:
+    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: false
+    refresh-mapper: true
+    db-config:
+#      table-prefix: "t_"
+      id-type: auto
+      table-underline: true
+#      column-format: "f_%s"
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
