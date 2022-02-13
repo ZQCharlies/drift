@@ -32,12 +32,13 @@ public class DirectQueueListener {
         String messageStr = new String(message.getBody());
         log.info("message:{},deliveryTag:{}",messageStr,deliveryTag);
 
-        //正确消费时调用 basicAck ；RabbitMQ的ack机制中，第二个参数返回true，表示需要将这条消息投递给其他的消费者重新消费
+        //正确消费时调用 basicAck ；RabbitMQ的ack机制中，第2个参数如果设为true，则表示批量确认当前通道中所有deliveryTag小于当前消息的所有消息。
         channel.basicAck(deliveryTag,false);
 
-        //消费失败时，调用 basicNack 需要将消息重新塞入队列，等待重新消费；第三个参数true，表示这个消息会重新进入队列
-        //channel.basicNack(deliveryTag,false,true);
-
+        //消费失败时，调用 basicNack 拒绝消息；第2个参数如果设为true，则表示批量拒绝当前通道中所有deliveryTag小于当前消息的所有消息；第三个参数true，表示这个消息会重新进入队列
+        channel.basicNack(deliveryTag,false,true);
+        //拒绝消息；与basicNack作用类似，只不过一次只能拒绝单条消息。
+        channel.basicReject(deliveryTag,false);
     }
 
     /**
